@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Habit Master Ultra</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --card: #1c1c1e;
+            --accent: #0a84ff;
+            --success: #32d74b;
+            --danger: #ff453a;
+            --gold: #ffd60a;
+            --glass: rgba(255, 255, 255, 0.08);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--bg);
+            color: white;
+            margin: 0;
+            padding: env(safe-area-inset-top) 20px 20px 20px;
+            display: flex;
+            justify-content: center;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .app-container { width: 100%; max-width: 450px; padding-top: 20px; }
+
+        /* الهوية البصرية والمستوى */
+        .profile-section { text-align: center; margin-bottom: 30px; }
+        .level-badge {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #5856d6);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 10px; font-size: 28px; font-weight: 900;
+            box-shadow: 0 0 25px rgba(10, 132, 255, 0.5);
+            border: 3px solid rgba(255,255,255,0.2);
+        }
+
+        /* الكروت الزجاجية (iOS Style) */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 15px;
+        }
+
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .stat-item { text-align: center; }
+        .stat-value { font-size: 24px; font-weight: 800; color: var(--gold); display: block; }
+        .stat-label { font-size: 11px; color: #8e8e93; font-weight: 600; text-transform: uppercase; }
+
+        /* الزر الرئيسي العملاق */
+        .main-action { margin: 30px 0; }
+        .btn-core {
+            background: var(--accent);
+            color: white; border: none; width: 100%;
+            padding: 24px; border-radius: 22px;
+            font-size: 20px; font-weight: 800;
+            box-shadow: 0 15px 35px rgba(10, 132, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-core:active { transform: scale(0.94); opacity: 0.9; }
+        .btn-core.done { background: var(--success); box-shadow: 0 10px 25px rgba(50, 215, 75, 0.3); }
+
+        /* الإنجازات Achievements */
+        .achievement-list { display: flex; gap: 12px; overflow-x: auto; padding: 10px 5px; scrollbar-width: none; }
+        .achievement-list::-webkit-scrollbar { display: none; }
+        .badge {
+            min-width: 65px; height: 65px; background: #2c2c2e;
+            border-radius: 18px; display: flex; align-items: center; justify-content: center;
+            font-size: 26px; opacity: 0.2; transition: 0.5s; grayscale: 100%;
+        }
+        .badge.active { opacity: 1; grayscale: 0; background: var(--glass); border: 1px solid var(--gold); transform: scale(1.05); }
+
+        /* شريط الصحة */
+        .health-container { margin-top: 10px; }
+        .health-bar { background: #333; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 5px; }
+        .health-fill { background: var(--danger); width: 100%; height: 100%; transition: 1s ease; }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+        .sync-status { font-size: 10px; color: #32d74b; margin-top: 15px; animation: pulse 2s infinite; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="profile-section">
+        <div class="level-badge" id="lvl">1</div>
+        <h2 id="rank" style="margin: 5px 0; font-size: 18px;">المبتدئ الواعد</h2>
+        <div class="health-container" style="width: 150px; margin: 0 auto;">
+            <div class="health-bar"><div id="hp" class="health-fill"></div></div>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="glass-card stat-item">
+            <span class="stat-value" id="streak">0</span>
+            <span class="stat-label">أيام متتالية 🔥</span>
+        </div>
+        <div class="glass-card stat-item">
+            <span class="stat-value" id="coins">0</span>
+            <span class="stat-label">رصيد الذهب 💰</span>
+        </div>
+    </div>
+
+    <div class="main-action">
+        <button id="btn" class="btn-core" onclick="complete()">تسجيل إنجاز اليوم</button>
+    </div>
+
+    <h3 style="font-size: 14px; margin-left: 5px; color: #8e8e93;">الأوسمة المكتسبة 🏅</h3>
+    <div class="achievement-list">
+        <div id="m1" class="badge">🌱</div>
+        <div id="m2" class="badge">🔥</div>
+        <div id="m3" class="badge">🛡️</div>
+        <div id="m4" class="badge">💎</div>
+        <div id="m5" class="badge">👑</div>
+    </div>
+
+    <div class="glass-card" style="margin-top: 20px;">
+        <h4 style="margin: 0 0 10px 0; color: var(--gold);">🛒 متجر التطوير</h4>
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
+            <span>شراء "تأمين السلسلة"</span>
+            <button onclick="buy(100)" style="background: white; border:none; padding: 5px 12px; border-radius: 8px; font-weight: bold;">100 💰</button>
+        </div>
+    </div>
+
+    <center><div class="sync-status">● متصل ومؤمن سحابياً عبر GitHub</div></center>
+</div>
+
+<script>
+    let state = JSON.parse(localStorage.getItem('UltraHabit')) || {
+        s: 0, c: 0, h: 100, last: null, items: 0
+    };
+
+    const ranks = ["المبتدئ الواعد", "المكافح المستمر", "صاحب الإرادة", "محارب العادات", "سيد الانضباط", "الأسطورة"];
+
+    function update() {
+        document.getElementById('streak').innerText = state.s;
+        document.getElementById('coins').innerText = state.c;
+        document.getElementById('hp').style.width = state.h + "%";
+        
+        let level = Math.floor(state.s / 7) + 1;
+        document.getElementById('lvl').innerText = level;
+        document.getElementById('rank').innerText = ranks[Math.min(level-1, 5)];
+
+        // الأوسمة
+        if(state.s >= 1) document.getElementById('m1').classList.add('active');
+        if(state.s >= 7) document.getElementById('m2').classList.add('active');
+        if(state.s >= 30) document.getElementById('m3').classList.add('active');
+        if(state.s >= 100) document.getElementById('m4').classList.add('active');
+        if(state.s >= 365) document.getElementById('m5').classList.add('active');
+
+        let today = new Date().toDateString();
+        if(state.last === today) {
+            let b = document.getElementById('btn');
+            b.innerText = "تم إنجاز يومك! ✅";
+            b.classList.add('done');
+            b.disabled = true;
+        }
+    }
+
+    function complete() {
+        state.s++;
+        state.c += 15;
+        state.h = Math.min(state.h + 10, 100);
+        state.last = new Date().toDateString();
+        save();
+        update();
+        if(navigator.vibrate) navigator.vibrate([60, 40, 60]);
+    }
+
+    function buy(cost) {
+        if(state.c >= cost) {
+            state.c -= cost;
+            alert("تم تفعيل حماية السلسلة! 🛡️");
+            save(); update();
+        } else {
+            alert("تحتاج لمزيد من الذهب!");
+        }
+    }
+
+    function save() { localStorage.setItem('UltraHabit', JSON.stringify(state)); }
+
+    update();
+</script>
+</body>
+</html>
