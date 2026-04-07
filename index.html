@@ -1,97 +1,101 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, viewport-fit=cover">
     <meta name="description" content="تطبيق متقدم لتتبع العادات اليومية">
     <title>✅ تتبع العادات اليومية</title>
+
+```
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Tajawal',sans-serif;background:#0f0f1a;color:#fff;padding:1rem}
+    .container{max-width:1200px;margin:0 auto}
+    .header{text-align:center;margin-bottom:2rem}
+    .logo{display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:0.5rem}
+    .logo i{font-size:2.5rem;color:#6366f1}
+    .logo h1{font-size:1.8rem;background:linear-gradient(135deg,#fff,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .subtitle{color:rgba(255,255,255,0.7);margin-bottom:1.5rem}
     
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    .btn-add-habit{width:100%;padding:1rem;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;border-radius:50px;color:#fff;font-size:1.1rem;font-weight:bold;margin-bottom:2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem}
     
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Tajawal',sans-serif;background:#0f0f1a;color:#fff;padding:1rem}
-        .container{max-width:1200px;margin:0 auto}
-        .header{text-align:center;margin-bottom:2rem}
-        .logo{display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:0.5rem}
-        .logo i{font-size:2.5rem;color:#6366f1}
-        .logo h1{font-size:1.8rem;background:linear-gradient(135deg,#fff,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .subtitle{color:rgba(255,255,255,0.7);margin-bottom:1.5rem}
-        
-        .btn-add-habit{width:100%;padding:1rem;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;border-radius:50px;color:#fff;font-size:1.1rem;font-weight:bold;margin-bottom:2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem}
-        
-        .habits-grid{display:grid;grid-template-columns:1fr;gap:1.5rem;margin-bottom:2rem}
-        .habit-card{background:rgba(255,255,255,0.05);border-radius:20px;padding:1.5rem}
-        .habit-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
-        .habit-info{display:flex;align-items:center;gap:0.75rem}
-        .habit-icon{width:50px;height:50px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
-        .habit-title-section h3{font-size:1.1rem}
-        .habit-streak{font-size:0.7rem;color:#fbbf24;display:flex;align-items:center;gap:0.25rem}
-        .habit-actions{display:flex;gap:0.5rem}
-        .btn-icon{background:rgba(255,255,255,0.1);border:none;border-radius:8px;width:35px;height:35px;color:#fff;cursor:pointer}
-        
-        .week-calendar{display:flex;gap:0.5rem;margin-bottom:1rem;overflow-x:auto}
-        .day-cell{flex:1;text-align:center;padding:0.5rem;background:rgba(0,0,0,0.3);border-radius:12px;cursor:pointer;transition:all 0.2s}
-        .day-cell.completed{background:linear-gradient(135deg,#22c55e,#4ade80)}
-        .day-cell.today{border:2px solid #6366f1}
-        .day-name{font-size:0.7rem;color:rgba(255,255,255,0.6)}
-        .day-number{font-size:1rem;font-weight:bold}
-        
-        .habit-stats{display:flex;gap:1rem;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.1)}
-        .habit-stat{flex:1;text-align:center}
-        .habit-stat-value{font-size:1rem;font-weight:bold}
-        .habit-stat-label{font-size:0.6rem;color:rgba(255,255,255,0.5)}
-        
-        /* Stats Section - Bottom */
-        .stats-section{margin-top:1rem}
-        .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
-        .stat-card{background:rgba(255,255,255,0.05);border-radius:16px;padding:1rem;text-align:center}
-        .stat-card i{font-size:1.5rem;margin-bottom:0.5rem;color:#6366f1}
-        .stat-value{font-size:1.5rem;font-weight:bold;display:block}
-        .stat-label{font-size:0.7rem;color:rgba(255,255,255,0.6)}
-        .stat-trend{font-size:0.7rem;margin-top:0.25rem}
-        .trend-up{color:#22c55e}.trend-down{color:#f43f5e}
-        
-        .charts-section{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
-        .chart-card{background:rgba(255,255,255,0.05);border-radius:20px;padding:1.5rem}
-        .chart-card h3{font-size:1rem;margin-bottom:1rem;color:rgba(255,255,255,0.8);display:flex;align-items:center;gap:0.5rem}
-        .chart-card canvas{max-height:200px;width:100%}
-        
-        .prediction-card{background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.1));border-radius:20px;padding:1rem;margin-bottom:1rem;text-align:center;border:1px solid rgba(99,102,241,0.3)}
-        .prediction-card i{font-size:1.2rem;color:#6366f1}
-        .prediction-text{font-size:0.9rem;color:rgba(255,255,255,0.8)}
-        
-        .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;visibility:hidden;transition:all 0.3s}
-        .modal.active{opacity:1;visibility:visible}
-        .modal-content{background:#1a1a2e;border-radius:20px;width:90%;max-width:500px;padding:1.5rem;max-height:80vh;overflow-y:auto}
-        .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
-        .btn-close{background:rgba(255,255,255,0.1);border:none;border-radius:8px;width:35px;height:35px;color:#fff;cursor:pointer}
-        .form-group{margin-bottom:1rem}
-        .form-group label{display:block;margin-bottom:0.5rem;color:rgba(255,255,255,0.7)}
-        .form-group input{width:100%;padding:0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-size:16px}
-        .color-picker{display:flex;flex-wrap:wrap;gap:0.5rem}
-        .color-option{width:40px;height:40px;border-radius:50%;border:2px solid transparent;cursor:pointer}
-        .color-option.active{border-color:#fff}
-        .icon-picker{display:grid;grid-template-columns:repeat(6,1fr);gap:0.5rem}
-        .icon-option{background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.5rem;cursor:pointer;text-align:center}
-        .icon-option.active{background:#6366f1}
-        .form-actions{display:flex;gap:1rem;margin-top:1.5rem}
-        .btn-primary{flex:1;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;border-radius:10px;padding:0.8rem;color:#fff;cursor:pointer}
-        .btn-secondary{flex:1;background:rgba(255,255,255,0.1);border:none;border-radius:10px;padding:0.8rem;color:#fff;cursor:pointer}
-        .empty-state{text-align:center;padding:3rem;display:none}
-        .empty-state.active{display:block}
-        .toast-container{position:fixed;top:1rem;left:1rem;z-index:2000}
-        .toast{background:#1a1a2e;border-radius:10px;padding:0.8rem 1.2rem;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem}
-        .toast.success{border-right:3px solid #22c55e}
-        
-        @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr)}.charts-section{grid-template-columns:1fr}.week-calendar{gap:0.3rem}.day-cell{padding:0.3rem}}
-        
-        body{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
-        input,textarea{-webkit-user-select:text !important;user-select:text !important;font-size:16px !important}
-    </style>
+    .habits-grid{display:grid;grid-template-columns:1fr;gap:1.5rem;margin-bottom:2rem}
+    .habit-card{background:rgba(255,255,255,0.05);border-radius:20px;padding:1.5rem}
+    .habit-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+    .habit-info{display:flex;align-items:center;gap:0.75rem}
+    .habit-icon{width:50px;height:50px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+    .habit-title-section h3{font-size:1.1rem}
+    .habit-streak{font-size:0.7rem;color:#fbbf24;display:flex;align-items:center;gap:0.25rem}
+    .habit-actions{display:flex;gap:0.5rem}
+    .btn-icon{background:rgba(255,255,255,0.1);border:none;border-radius:8px;width:35px;height:35px;color:#fff;cursor:pointer}
+    
+    .week-calendar{display:flex;gap:0.5rem;margin-bottom:1rem;overflow-x:auto}
+    .day-cell{flex:1;text-align:center;padding:0.5rem;background:rgba(0,0,0,0.3);border-radius:12px;cursor:pointer;transition:all 0.2s}
+    .day-cell.completed{background:linear-gradient(135deg,#22c55e,#4ade80)}
+    .day-cell.today{border:2px solid #6366f1}
+    .day-name{font-size:0.7rem;color:rgba(255,255,255,0.6)}
+    .day-number{font-size:1rem;font-weight:bold}
+    
+    .habit-stats{display:flex;gap:1rem;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.1)}
+    .habit-stat{flex:1;text-align:center}
+    .habit-stat-value{font-size:1rem;font-weight:bold}
+    .habit-stat-label{font-size:0.6rem;color:rgba(255,255,255,0.5)}
+    
+    .stats-section{margin-top:1rem}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+    .stat-card{background:rgba(255,255,255,0.05);border-radius:16px;padding:1rem;text-align:center}
+    .stat-card i{font-size:1.5rem;margin-bottom:0.5rem;color:#6366f1}
+    .stat-value{font-size:1.5rem;font-weight:bold;display:block}
+    .stat-label{font-size:0.7rem;color:rgba(255,255,255,0.6)}
+    .stat-trend{font-size:0.7rem;margin-top:0.25rem}
+    .trend-up{color:#22c55e}.trend-down{color:#f43f5e}
+    
+    .charts-section{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+    .chart-card{background:rgba(255,255,255,0.05);border-radius:20px;padding:1.5rem}
+    .chart-card h3{font-size:1rem;margin-bottom:1rem;color:rgba(255,255,255,0.8);display:flex;align-items:center;gap:0.5rem}
+    .chart-card canvas{max-height:200px;width:100%}
+    
+    .prediction-card{background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.1));border-radius:20px;padding:1rem;margin-bottom:1rem;text-align:center;border:1px solid rgba(99,102,241,0.3)}
+    .prediction-card i{font-size:1.2rem;color:#6366f1}
+    .prediction-text{font-size:0.9rem;color:rgba(255,255,255,0.8)}
+    
+    .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;visibility:hidden;transition:all 0.3s}
+    .modal.active{opacity:1;visibility:visible}
+    .modal-content{background:#1a1a2e;border-radius:20px;width:90%;max-width:500px;padding:1.5rem;max-height:80vh;overflow-y:auto}
+    .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+    .btn-close{background:rgba(255,255,255,0.1);border:none;border-radius:8px;width:35px;height:35px;color:#fff;cursor:pointer}
+    .form-group{margin-bottom:1rem}
+    .form-group label{display:block;margin-bottom:0.5rem;color:rgba(255,255,255,0.7)}
+    .form-group input{width:100%;padding:0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-size:16px}
+    .color-picker{display:flex;flex-wrap:wrap;gap:0.5rem}
+    .color-option{width:40px;height:40px;border-radius:50%;border:2px solid transparent;cursor:pointer}
+    .color-option.active{border-color:#fff}
+    .icon-picker{display:grid;grid-template-columns:repeat(6,1fr);gap:0.5rem}
+    .icon-option{background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.5rem;cursor:pointer;text-align:center}
+    .icon-option.active{background:#6366f1}
+    .form-actions{display:flex;gap:1rem;margin-top:1.5rem}
+    .btn-primary{flex:1;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;border-radius:10px;padding:0.8rem;color:#fff;cursor:pointer}
+    .btn-secondary{flex:1;background:rgba(255,255,255,0.1);border:none;border-radius:10px;padding:0.8rem;color:#fff;cursor:pointer}
+    .empty-state{text-align:center;padding:3rem;display:none}
+    .empty-state.active{display:block}
+    .toast-container{position:fixed;top:1rem;left:1rem;z-index:2000}
+    .toast{background:#1a1a2e;border-radius:10px;padding:0.8rem 1.2rem;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem}
+    .toast.success{border-right:3px solid #22c55e}
+    .toast.error{border-right:3px solid #f43f5e}
+    
+    @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr)}.charts-section{grid-template-columns:1fr}.week-calendar{gap:0.3rem}.day-cell{padding:0.3rem}}
+    
+    body{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+    input,textarea{-webkit-user-select:text !important;user-select:text !important;font-size:16px !important}
+</style>
+```
+
 </head>
 <body>
     <div class="container">
@@ -102,396 +106,678 @@
             </div>
             <p class="subtitle">ابنِ عاداتك الإيجابية خطوة بخطوة</p>
         </header>
-        
-        <!-- زر إضافة عادة (في الأعلى) -->
-        <button class="btn-add-habit" id="btnAddHabit"><i class="fas fa-plus"></i> إضافة عادة جديدة</button>
-        
-        <!-- قسم العادات (في الأعلى) -->
-        <div class="habits-grid" id="habitsGrid"></div>
-        <div class="empty-state" id="emptyState"><i class="fas fa-smile" style="font-size:3rem;margin-bottom:1rem"></i><h2>ابدأ رحلتك</h2><p>أضف أول عادة لك وابدأ في بناء مستقبل أفضل</p></div>
-        
-        <!-- قسم الإحصائيات (في الأسفل) -->
-        <div class="stats-section">
-            <div class="stats-grid">
-                <div class="stat-card"><i class="fas fa-fire"></i><span class="stat-value" id="totalStreak">0</span><span class="stat-label">أقوى سلسلة</span><div class="stat-trend" id="streakTrend"></div></div>
-                <div class="stat-card"><i class="fas fa-chart-line"></i><span class="stat-value" id="totalCompletion">0%</span><span class="stat-label">نسبة الإنجاز</span><div class="stat-trend" id="completionTrend"></div></div>
-                <div class="stat-card"><i class="fas fa-calendar-check"></i><span class="stat-value" id="totalHabits">0</span><span class="stat-label">العادات</span></div>
-                <div class="stat-card"><i class="fas fa-trophy"></i><span class="stat-value" id="bestHabit">-</span><span class="stat-label">أفضل عادة</span></div>
-            </div>
-            
-            <!-- الرسوم البيانية -->
-            <div class="charts-section">
-                <div class="chart-card"><h3><i class="fas fa-chart-line"></i> أداء العادات (آخر 7 أيام)</h3><canvas id="weeklyChart"></canvas></div>
-                <div class="chart-card"><h3><i class="fas fa-chart-bar"></i> مقارنة العادات</h3><canvas id="comparisonChart"></canvas></div>
-            </div>
-            
-            <!-- توقعات ذكية -->
-            <div class="prediction-card" id="predictionCard">
-                <i class="fas fa-brain"></i> <span class="prediction-text" id="predictionText">تحليل ذكي...</span>
-            </div>
-        </div>
+
+```
+    <button class="btn-add-habit" id="btnAddHabit"><i class="fas fa-plus"></i> إضافة عادة جديدة</button>
+    
+    <div class="habits-grid" id="habitsGrid"></div>
+    <div class="empty-state" id="emptyState">
+        <i class="fas fa-smile" style="font-size:3rem;margin-bottom:1rem"></i>
+        <h2>ابدأ رحلتك</h2>
+        <p>أضف أول عادة لك وابدأ في بناء مستقبل أفضل</p>
     </div>
     
-    <!-- Modals -->
-    <div class="modal" id="habitModal">
-        <div class="modal-content">
-            <div class="modal-header"><h2 id="modalTitle">إضافة عادة جديدة</h2><button class="btn-close" id="btnCloseModal"><i class="fas fa-times"></i></button></div>
-            <form id="habitForm">
-                <input type="hidden" id="habitId">
-                <div class="form-group"><label>اسم العادة</label><input type="text" id="habitName" placeholder="مثال: قراءة 30 دقيقة" required></div>
-                <div class="form-group"><label>اختر لون العادة</label><div class="color-picker" id="colorPicker">
+    <div class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card"><i class="fas fa-fire"></i><span class="stat-value" id="totalStreak">0</span><span class="stat-label">أقوى سلسلة</span><div class="stat-trend" id="streakTrend"></div></div>
+            <div class="stat-card"><i class="fas fa-chart-line"></i><span class="stat-value" id="totalCompletion">0%</span><span class="stat-label">نسبة الإنجاز</span><div class="stat-trend" id="completionTrend"></div></div>
+            <div class="stat-card"><i class="fas fa-calendar-check"></i><span class="stat-value" id="totalHabits">0</span><span class="stat-label">العادات</span></div>
+            <div class="stat-card"><i class="fas fa-trophy"></i><span class="stat-value" id="bestHabit">-</span><span class="stat-label">أفضل عادة</span></div>
+        </div>
+        
+        <div class="charts-section">
+            <div class="chart-card"><h3><i class="fas fa-chart-line"></i> أداء العادات (آخر 7 أيام)</h3><canvas id="weeklyChart"></canvas></div>
+            <div class="chart-card"><h3><i class="fas fa-chart-bar"></i> مقارنة العادات</h3><canvas id="comparisonChart"></canvas></div>
+        </div>
+        
+        <div class="prediction-card" id="predictionCard">
+            <i class="fas fa-brain"></i> <span class="prediction-text" id="predictionText">تحليل ذكي...</span>
+        </div>
+    </div>
+</div>
+
+<!-- Modal إضافة / تعديل -->
+<div class="modal" id="habitModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalTitle">إضافة عادة جديدة</h2>
+            <button class="btn-close" id="btnCloseModal"><i class="fas fa-times"></i></button>
+        </div>
+        <form id="habitForm">
+            <input type="hidden" id="habitId">
+            <div class="form-group">
+                <label>اسم العادة</label>
+                <input type="text" id="habitName" placeholder="مثال: قراءة 30 دقيقة" required>
+            </div>
+            <div class="form-group">
+                <label>اختر لون العادة</label>
+                <div class="color-picker" id="colorPicker">
                     <button type="button" class="color-option" data-color="#6366f1" style="background:#6366f1"></button>
                     <button type="button" class="color-option" data-color="#8b5cf6" style="background:#8b5cf6"></button>
                     <button type="button" class="color-option" data-color="#ec4899" style="background:#ec4899"></button>
                     <button type="button" class="color-option" data-color="#22c55e" style="background:#22c55e"></button>
                     <button type="button" class="color-option" data-color="#f97316" style="background:#f97316"></button>
                     <button type="button" class="color-option" data-color="#06b6d4" style="background:#06b6d4"></button>
-                </div><input type="hidden" id="selectedColor" value="#6366f1"></div>
-                <div class="form-group"><label>اختر أيقونة</label><div class="icon-picker" id="iconPicker">
+                </div>
+                <input type="hidden" id="selectedColor" value="#6366f1">
+            </div>
+            <div class="form-group">
+                <label>اختر أيقونة</label>
+                <div class="icon-picker" id="iconPicker">
+                    <!-- ✅ جميع الأيقونات صالحة في Font Awesome 6 -->
                     <button type="button" class="icon-option" data-icon="fa-book"><i class="fas fa-book"></i></button>
                     <button type="button" class="icon-option" data-icon="fa-dumbbell"><i class="fas fa-dumbbell"></i></button>
                     <button type="button" class="icon-option" data-icon="fa-apple-alt"><i class="fas fa-apple-alt"></i></button>
-                    <button type="button" class="icon-option" data-icon="fa-walking"><i class="fas fa-walking"></i></button>
+                    <button type="button" class="icon-option" data-icon="fa-person-walking"><i class="fas fa-person-walking"></i></button>
                     <button type="button" class="icon-option" data-icon="fa-bed"><i class="fas fa-bed"></i></button>
                     <button type="button" class="icon-option" data-icon="fa-laptop-code"><i class="fas fa-laptop-code"></i></button>
-                    <button type="button" class="icon-option" data-icon="fa-pray"><i class="fas fa-pray"></i></button>
-                    <button type="button" class="icon-option" data-icon="fa-heartbeat"><i class="fas fa-heartbeat"></i></button>
+                    <button type="button" class="icon-option" data-icon="fa-hands-praying"><i class="fas fa-hands-praying"></i></button>
+                    <button type="button" class="icon-option" data-icon="fa-heart-pulse"><i class="fas fa-heart-pulse"></i></button>
                     <button type="button" class="icon-option" data-icon="fa-water"><i class="fas fa-water"></i></button>
-                    <button type="button" class="icon-option" data-icon="fa-meditate"><i class="fas fa-meditate"></i></button>
+                    <!-- ✅ استبدال fa-meditate (غير موجودة) بـ fa-spa -->
+                    <button type="button" class="icon-option" data-icon="fa-spa"><i class="fas fa-spa"></i></button>
                     <button type="button" class="icon-option" data-icon="fa-bicycle"><i class="fas fa-bicycle"></i></button>
                     <button type="button" class="icon-option" data-icon="fa-music"><i class="fas fa-music"></i></button>
-                </div><input type="hidden" id="selectedIcon" value="fa-book"></div>
-                <div class="form-actions"><button type="button" class="btn-secondary" id="btnCancel">إلغاء</button><button type="submit" class="btn-primary">حفظ العادة</button></div>
-            </form>
+                </div>
+                <input type="hidden" id="selectedIcon" value="fa-book">
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" id="btnCancel">إلغاء</button>
+                <button type="submit" class="btn-primary">حفظ العادة</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal حذف -->
+<div class="modal" id="deleteModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>تأكيد الحذف</h2>
+            <button class="btn-close" id="btnCloseDelete"><i class="fas fa-times"></i></button>
+        </div>
+        <div style="text-align:center;padding:1rem">
+            <i class="fas fa-exclamation-triangle" style="font-size:3rem;color:#f43f5e"></i>
+            <p>هل أنت متأكد من حذف هذه العادة؟</p>
+            <p style="font-size:0.8rem;color:rgba(255,255,255,0.5)">سيتم فقدان جميع بيانات التقدم</p>
+            <div class="form-actions">
+                <button class="btn-secondary" id="btnCancelDelete">إلغاء</button>
+                <button class="btn-primary" id="btnConfirmDelete" style="background:#f43f5e">حذف</button>
+            </div>
         </div>
     </div>
-    
-    <div class="modal" id="deleteModal">
-        <div class="modal-content"><div class="modal-header"><h2>تأكيد الحذف</h2><button class="btn-close" id="btnCloseDelete"><i class="fas fa-times"></i></button></div>
-        <div style="text-align:center;padding:1rem"><i class="fas fa-exclamation-triangle" style="font-size:3rem;color:#f43f5e"></i><p>هل أنت متأكد من حذف هذه العادة؟</p><p style="font-size:0.8rem;color:rgba(255,255,255,0.5)">سيتم فقدان جميع بيانات التقدم</p>
-        <div class="form-actions"><button class="btn-secondary" id="btnCancelDelete">إلغاء</button><button class="btn-primary" id="btnConfirmDelete" style="background:#f43f5e">حذف</button></div></div></div>
-    </div>
-    
-    <div class="toast-container" id="toastContainer"></div>
-    
-    <script>
-        let habits = [];
-        let habitToDelete = null;
-        let weeklyChart = null;
-        let comparisonChart = null;
-        
-        // الحصول على توقيت المغرب (UTC+1 في الصيف، UTC+0 في الشتاء)
-        // نستخدم ببساطة UTC+1 لتبسيط الكود
-        function getMoroccoDate() {
-            const now = new Date();
-            const moroccoOffset = 1; // GMT+1
-            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-            return new Date(utc + (3600000 * moroccoOffset));
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+    var habits = [];
+    var habitToDelete = null;
+    var weeklyChart = null;
+    var comparisonChart = null;
+
+    // ============================
+    // توقيت المغرب (UTC+1)
+    // ============================
+    function getMoroccoDate() {
+        var now = new Date();
+        var utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+        return new Date(utc + 3600000); // GMT+1
+    }
+
+    function getTodayKey() {
+        return formatDate(getMoroccoDate());
+    }
+
+    function formatDate(date) {
+        var y = date.getFullYear();
+        var m = String(date.getMonth() + 1).padStart(2, '0');
+        var d = String(date.getDate()).padStart(2, '0');
+        return y + '-' + m + '-' + d;
+    }
+
+    function generateId() {
+        return Date.now().toString(36) + Math.random().toString(36).substring(2);
+    }
+
+    function escapeHtml(text) {
+        var div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function showToast(msg, type) {
+        var toast = document.createElement('div');
+        toast.className = 'toast ' + (type || 'success');
+        var icon = type === 'error' ? 'fa-circle-xmark' : 'fa-check-circle';
+        toast.innerHTML = '<i class="fas ' + icon + '"></i><span>' + msg + '</span>';
+        document.getElementById('toastContainer').appendChild(toast);
+        setTimeout(function() { toast.remove(); }, 3000);
+    }
+
+    // ============================
+    // حساب إجمالي الأيام منذ إنشاء العادة
+    // ✅ هذا يحل مشكلة زيادة إجمالي الأيام عند التحديد
+    // ============================
+    function getTotalDays(habit) {
+        if (!habit.createdAt) {
+            // للعادات القديمة التي ليس لها createdAt: نحسب من أقدم تاريخ في history
+            var keys = Object.keys(habit.history);
+            if (keys.length === 0) return 1;
+            keys.sort();
+            var start = new Date(keys[0]);
+            var end = getMoroccoDate();
+            var diff = Math.floor((end - start) / 86400000) + 1;
+            return Math.max(diff, 1);
         }
-        
-        function getTodayKey() {
-            const moroccoDate = getMoroccoDate();
-            return moroccoDate.toISOString().split('T')[0];
-        }
-        
-        function formatDate(date) { return date.toISOString().split('T')[0]; }
-        function generateId() { return Date.now().toString(36) + Math.random().toString(36).substring(2); }
-        function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
-        function showToast(msg, type) { const toast = document.createElement('div'); toast.className = `toast ${type}`; toast.innerHTML = `<i class="fas ${type==='success'?'fa-check-circle':'fa-info-circle'}"></i><span>${msg}</span>`; document.getElementById('toastContainer').appendChild(toast); setTimeout(()=>toast.remove(),3000); }
-        
-        // إعادة ضبط يومية عند منتصف الليل بتوقيت المغرب
-        function checkDailyReset() {
-            const lastReset = localStorage.getItem('lastResetDate');
-            const today = getTodayKey();
-            
-            if(lastReset !== today) {
-                // هذا يوم جديد - لا نحتاج لفعل شيء لأن كل يوم يبدأ من الصفر تلقائياً
-                // فقط نحدث تاريخ آخر إعادة ضبط
-                localStorage.setItem('lastResetDate', today);
-                renderHabits();
-                showToast('🌅 يوم جديد! حان وقت إنجاز عادات اليوم', 'success');
+        var start = new Date(habit.createdAt);
+        var end = getMoroccoDate();
+        var diff = Math.floor((end - start) / 86400000) + 1;
+        return Math.max(diff, 1);
+    }
+
+    // ============================
+    // حساب الأيام المنجزة فقط (history = true)
+    // ============================
+    function getCompletedDays(habit) {
+        return Object.values(habit.history).filter(function(v) { return v === true; }).length;
+    }
+
+    // ============================
+    // حساب السلسلة الحالية
+    // ============================
+    function calculateStreak(habit) {
+        var streak = 0;
+        var currentDate = getMoroccoDate();
+        while (true) {
+            var dateStr = formatDate(currentDate);
+            if (habit.history[dateStr] === true) {
+                streak++;
+                currentDate.setDate(currentDate.getDate() - 1);
+            } else {
+                break;
             }
         }
-        
-        function calculateStreak(habit) {
-            let streak = 0;
-            let currentDate = getMoroccoDate();
-            while(true) {
-                const dateStr = formatDate(currentDate);
-                if(habit.history[dateStr] === true) { streak++; currentDate.setDate(currentDate.getDate() - 1); }
-                else break;
+        return streak;
+    }
+
+    // ============================
+    // حساب أفضل سلسلة على مدى تاريخ العادة
+    // ✅ يستخدم نطاق الأيام الكامل لا مجرد مفاتيح history
+    // ============================
+    function calculateBestStreak(habit) {
+        var startStr = habit.createdAt;
+        if (!startStr) {
+            var keys = Object.keys(habit.history);
+            if (keys.length === 0) return 0;
+            keys.sort();
+            startStr = keys[0];
+        }
+        var current = new Date(startStr);
+        var end = getMoroccoDate();
+        var maxStreak = 0;
+        var streak = 0;
+        while (current <= end) {
+            var ds = formatDate(current);
+            if (habit.history[ds] === true) {
+                streak++;
+                if (streak > maxStreak) maxStreak = streak;
+            } else {
+                streak = 0;
             }
-            return streak;
+            current.setDate(current.getDate() + 1);
         }
-        
-        function calculateBestStreak(habit) {
-            let maxStreak = 0, currentStreak = 0;
-            const dates = Object.keys(habit.history).sort();
-            for(let i = 0; i < dates.length; i++) {
-                if(habit.history[dates[i]]) { currentStreak++; maxStreak = Math.max(maxStreak, currentStreak); }
-                else currentStreak = 0;
+        return maxStreak;
+    }
+
+    // ============================
+    // إعادة ضبط يومية
+    // ============================
+    function checkDailyReset() {
+        var lastReset = localStorage.getItem('lastResetDate');
+        var today = getTodayKey();
+        if (lastReset && lastReset !== today) {
+            // يوم جديد فعلاً (ليس أول تشغيل)
+            localStorage.setItem('lastResetDate', today);
+            renderHabits();
+            showToast('🌅 يوم جديد! حان وقت إنجاز عادات اليوم', 'success');
+        } else if (!lastReset) {
+            // أول تشغيل فقط، لا نُظهر toast
+            localStorage.setItem('lastResetDate', today);
+        }
+    }
+
+    // ============================
+    // إحصائيات إجمالية
+    // ============================
+    function updateStats() {
+        var totalHabits = habits.length;
+        var totalCompletions = 0;
+        var totalPossible = 0;
+        var bestHabitName = '-';
+        var bestHabitRate = -1;
+
+        habits.forEach(function(habit) {
+            var days = getTotalDays(habit);
+            var completed = getCompletedDays(habit);
+            var rate = (completed / days) * 100;
+            totalCompletions += completed;
+            totalPossible += days;
+            if (rate > bestHabitRate) {
+                bestHabitRate = rate;
+                bestHabitName = habit.name;
             }
-            return maxStreak;
-        }
-        
-        function updateStats() {
-            const totalHabits = habits.length;
-            let totalCompletions = 0, totalPossible = 0;
-            let bestHabitName = '-', bestHabitRate = 0;
-            
-            habits.forEach(habit => {
-                const days = Object.keys(habit.history).length;
-                const completed = Object.values(habit.history).filter(v=>v===true).length;
-                const rate = days > 0 ? (completed/days)*100 : 0;
-                totalCompletions += completed;
-                totalPossible += days;
-                if(rate > bestHabitRate) { bestHabitRate = rate; bestHabitName = habit.name; }
-            });
-            
-            const overallRate = totalPossible > 0 ? (totalCompletions/totalPossible)*100 : 0;
-            document.getElementById('totalHabits').textContent = totalHabits;
-            document.getElementById('totalCompletion').textContent = Math.round(overallRate) + '%';
-            document.getElementById('bestHabit').textContent = bestHabitName.length > 10 ? bestHabitName.slice(0,10)+'..' : bestHabitName;
-            
-            let totalStreak = 0;
-            habits.forEach(habit => { totalStreak += calculateStreak(habit); });
-            document.getElementById('totalStreak').textContent = totalStreak;
-            
-            const lastWeekCompletions = getLastWeekCompletions();
-            const prevWeekCompletions = getPreviousWeekCompletions();
-            const streakChange = lastWeekCompletions - prevWeekCompletions;
-            document.getElementById('streakTrend').innerHTML = streakChange >= 0 ? `<i class="fas fa-arrow-up trend-up"></i> +${streakChange}` : `<i class="fas fa-arrow-down trend-down"></i> ${streakChange}`;
-            document.getElementById('completionTrend').innerHTML = overallRate > 50 ? '<i class="fas fa-arrow-up trend-up"></i> جيد' : '<i class="fas fa-arrow-down trend-down"></i> يحتاج تحسين';
-            
-            updatePrediction(overallRate);
-        }
-        
-        function getLastWeekCompletions() {
-            let count = 0;
-            habits.forEach(habit => {
-                for(let i = 0; i < 7; i++) {
-                    const date = getMoroccoDate();
-                    date.setDate(date.getDate() - i);
-                    if(habit.history[formatDate(date)]) count++;
-                }
-            });
-            return count;
-        }
-        
-        function getPreviousWeekCompletions() {
-            let count = 0;
-            habits.forEach(habit => {
-                for(let i = 7; i < 14; i++) {
-                    const date = getMoroccoDate();
-                    date.setDate(date.getDate() - i);
-                    if(habit.history[formatDate(date)]) count++;
-                }
-            });
-            return count;
-        }
-        
-        function updatePrediction(rate) {
-            const predictions = [
-                { min: 80, text: '🔥 ممتاز! استمر على هذا المنوال، أنت في طريقك لتكوين عادات قوية جداً!' },
-                { min: 60, text: '📈 جيد جداً! مع القليل من الالتزام الإضافي، ستصل إلى نتائج رائعة' },
-                { min: 40, text: '🌱 بداية جيدة! حاول تخصيص وقت ثابت يومياً للعادات' },
-                { min: 20, text: '💪 لا تستسلم! حتى الخطوات الصغيرة تقود إلى تغييرات كبيرة' },
-                { min: 0, text: '🌟 ابدأ اليوم! أول خطوة هي الأهم في رحلة بناء العادات' }
-            ];
-            const prediction = predictions.find(p => rate >= p.min) || predictions[predictions.length-1];
-            document.getElementById('predictionText').textContent = prediction.text;
-        }
-        
-        function updateCharts() {
-            const last7Days = [];
-            for(let i = 6; i >= 0; i--) {
-                const date = getMoroccoDate();
+        });
+
+        var overallRate = totalPossible > 0 ? (totalCompletions / totalPossible) * 100 : 0;
+
+        document.getElementById('totalHabits').textContent = totalHabits;
+        document.getElementById('totalCompletion').textContent = Math.round(overallRate) + '%';
+        document.getElementById('bestHabit').textContent = bestHabitName.length > 10 ? bestHabitName.slice(0, 10) + '..' : bestHabitName;
+
+        // أقوى سلسلة: مجموع السلاسل الحالية لجميع العادات
+        var totalStreak = 0;
+        habits.forEach(function(h) { totalStreak = Math.max(totalStreak, calculateBestStreak(h)); });
+        document.getElementById('totalStreak').textContent = totalStreak;
+
+        // مقارنة الأسبوع الحالي بالسابق
+        var lastWeek = getWeekCompletions(0);
+        var prevWeek = getWeekCompletions(7);
+        var weekDiff = lastWeek - prevWeek;
+        document.getElementById('streakTrend').innerHTML = weekDiff >= 0
+            ? '<i class="fas fa-arrow-up trend-up"></i> +' + weekDiff
+            : '<i class="fas fa-arrow-down trend-down"></i> ' + weekDiff;
+
+        document.getElementById('completionTrend').innerHTML = overallRate >= 50
+            ? '<i class="fas fa-arrow-up trend-up"></i> جيد'
+            : '<i class="fas fa-arrow-down trend-down"></i> يحتاج تحسين';
+
+        updatePrediction(overallRate);
+    }
+
+    function getWeekCompletions(offsetDays) {
+        var count = 0;
+        habits.forEach(function(habit) {
+            for (var i = offsetDays; i < offsetDays + 7; i++) {
+                var date = getMoroccoDate();
                 date.setDate(date.getDate() - i);
-                last7Days.push(formatDate(date));
+                if (habit.history[formatDate(date)] === true) count++;
             }
-            
-            const dailyData = last7Days.map(day => {
-                let count = 0;
-                habits.forEach(habit => { if(habit.history[day]) count++; });
-                return count;
-            });
-            
-            if(weeklyChart) weeklyChart.destroy();
-            const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
-            weeklyChart = new Chart(weeklyCtx, {
-                type: 'line', data: { labels: last7Days.map(d=>d.slice(5)), datasets: [{ label: 'العادات المنجزة', data: dailyData, borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,0.1)', tension: 0.4, fill: true }] },
-                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#fff' } } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' } }, x: { grid: { color: 'rgba(255,255,255,0.1)' } } } }
-            });
-            
-            const comparisonData = habits.map(h => {
-                const days = Object.keys(h.history).length;
-                const completed = Object.values(h.history).filter(v=>v===true).length;
-                return days > 0 ? (completed/days)*100 : 0;
-            });
-            
-            if(comparisonChart) comparisonChart.destroy();
-            const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
-            comparisonChart = new Chart(comparisonCtx, {
-                type: 'bar', data: { labels: habits.map(h=>h.name.length>10?h.name.slice(0,8)+'..':h.name), datasets: [{ label: 'نسبة الإنجاز %', data: comparisonData, backgroundColor: habits.map(h=>h.color), borderRadius: 8 }] },
-                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#fff' } } }, scales: { y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.1)' } }, x: { grid: { color: 'rgba(255,255,255,0.1)' } } } }
-            });
+        });
+        return count;
+    }
+
+    function updatePrediction(rate) {
+        var predictions = [
+            { min: 80, text: '🔥 ممتاز! استمر على هذا المنوال، أنت في طريقك لتكوين عادات قوية جداً!' },
+            { min: 60, text: '📈 جيد جداً! مع القليل من الالتزام الإضافي، ستصل إلى نتائج رائعة' },
+            { min: 40, text: '🌱 بداية جيدة! حاول تخصيص وقت ثابت يومياً للعادات' },
+            { min: 20, text: '💪 لا تستسلم! حتى الخطوات الصغيرة تقود إلى تغييرات كبيرة' },
+            { min: 0,  text: '🌟 ابدأ اليوم! أول خطوة هي الأهم في رحلة بناء العادات' }
+        ];
+        var prediction = predictions.find(function(p) { return rate >= p.min; }) || predictions[predictions.length - 1];
+        document.getElementById('predictionText').textContent = prediction.text;
+    }
+
+    // ============================
+    // الرسوم البيانية
+    // ============================
+    function updateCharts() {
+        var last7Days = [];
+        for (var i = 6; i >= 0; i--) {
+            var date = getMoroccoDate();
+            date.setDate(date.getDate() - i);
+            last7Days.push(formatDate(date));
         }
-        
-        function renderHabits() {
-            const grid = document.getElementById('habitsGrid');
-            grid.innerHTML = '';
-            if(habits.length === 0) { document.getElementById('emptyState').classList.add('active'); updateStats(); updateCharts(); return; }
-            document.getElementById('emptyState').classList.remove('active');
-            
-            habits.forEach(habit => {
-                const last7Days = [];
-                for(let i = 6; i >= 0; i--) {
-                    const date = getMoroccoDate();
-                    date.setDate(date.getDate() - i);
-                    last7Days.push(date);
+
+        var dailyData = last7Days.map(function(day) {
+            var count = 0;
+            habits.forEach(function(habit) { if (habit.history[day] === true) count++; });
+            return count;
+        });
+
+        if (weeklyChart) weeklyChart.destroy();
+        var weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
+        weeklyChart = new Chart(weeklyCtx, {
+            type: 'line',
+            data: {
+                labels: last7Days.map(function(d) { return d.slice(5); }),
+                datasets: [{
+                    label: 'العادات المنجزة',
+                    data: dailyData,
+                    borderColor: '#6366f1',
+                    backgroundColor: 'rgba(99,102,241,0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: { legend: { labels: { color: '#fff' } } },
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1, color: '#aaa' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                    x: { ticks: { color: '#aaa' }, grid: { color: 'rgba(255,255,255,0.1)' } }
                 }
-                
-                const streak = calculateStreak(habit);
-                const bestStreak = calculateBestStreak(habit);
-                const totalDays = Object.keys(habit.history).length;
-                const completedDays = Object.values(habit.history).filter(v=>v===true).length;
-                const rate = totalDays > 0 ? Math.round((completedDays/totalDays)*100) : 0;
-                
-                const card = document.createElement('div');
-                card.className = 'habit-card';
-                card.innerHTML = `
-                    <div class="habit-header">
-                        <div class="habit-info">
-                            <div class="habit-icon" style="background:${habit.color}"><i class="fas ${habit.icon}"></i></div>
-                            <div class="habit-title-section">
-                                <h3>${escapeHtml(habit.name)}</h3>
-                                <div class="habit-streak"><i class="fas fa-fire"></i> السلسلة الحالية: ${streak} يوم | أفضل: ${bestStreak}</div>
-                            </div>
-                        </div>
-                        <div class="habit-actions">
-                            <button class="btn-icon" onclick="editHabit('${habit.id}')"><i class="fas fa-edit"></i></button>
-                            <button class="btn-icon" onclick="confirmDelete('${habit.id}')"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>
-                    <div class="week-calendar">
-                        ${last7Days.map(day => {
-                            const dateStr = formatDate(day);
-                            const isCompleted = habit.history[dateStr] === true;
-                            const isToday = formatDate(getMoroccoDate()) === dateStr;
-                            return `<div class="day-cell ${isCompleted ? 'completed' : ''} ${isToday ? 'today' : ''}" onclick="toggleHabit('${habit.id}','${dateStr}')">
-                                <div class="day-name">${day.toLocaleDateString('ar-EG',{weekday:'short'})}</div>
-                                <div class="day-number">${day.getDate()}</div>
-                            </div>`;
-                        }).join('')}
-                    </div>
-                    <div class="habit-stats">
-                        <div class="habit-stat"><div class="habit-stat-value">${rate}%</div><div class="habit-stat-label">نسبة الإنجاز</div></div>
-                        <div class="habit-stat"><div class="habit-stat-value">${completedDays}</div><div class="habit-stat-label">يوم مكتمل</div></div>
-                        <div class="habit-stat"><div class="habit-stat-value">${totalDays}</div><div class="habit-stat-label">إجمالي الأيام</div></div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
+            }
+        });
+
+        var comparisonData = habits.map(function(h) {
+            var days = getTotalDays(h);
+            var completed = getCompletedDays(h);
+            return days > 0 ? Math.round((completed / days) * 100) : 0;
+        });
+
+        if (comparisonChart) comparisonChart.destroy();
+        var comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
+        comparisonChart = new Chart(comparisonCtx, {
+            type: 'bar',
+            data: {
+                labels: habits.map(function(h) { return h.name.length > 10 ? h.name.slice(0, 8) + '..' : h.name; }),
+                datasets: [{
+                    label: 'نسبة الإنجاز %',
+                    data: comparisonData,
+                    backgroundColor: habits.map(function(h) { return h.color; }),
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: { legend: { labels: { color: '#fff' } } },
+                scales: {
+                    y: { beginAtZero: true, max: 100, ticks: { color: '#aaa' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                    x: { ticks: { color: '#aaa' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+                }
+            }
+        });
+    }
+
+    // ============================
+    // عرض العادات
+    // ============================
+    function renderHabits() {
+        var grid = document.getElementById('habitsGrid');
+        grid.innerHTML = '';
+
+        if (habits.length === 0) {
+            document.getElementById('emptyState').classList.add('active');
             updateStats();
             updateCharts();
+            return;
         }
-        
-        function toggleHabit(habitId, date) {
-            const habit = habits.find(h => h.id === habitId);
-            if(habit) {
-                // لا يمكن تعديل أيام المستقبل
-                const today = getTodayKey();
-                if(date > today) {
-                    showToast('لا يمكنك تسجيل عادات لأيام مستقبلية', 'error');
-                    return;
-                }
-                const current = habit.history[date] || false;
-                habit.history[date] = !current;
-                saveHabits();
-                renderHabits();
-                
-                if(!current && calculateStreak(habit) >= 7) {
-                    showToast(`🎉 رائع! حافظت على عادة "${habit.name}" لمدة 7 أيام متتالية!`, 'success');
-                    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                }
+        document.getElementById('emptyState').classList.remove('active');
+
+        habits.forEach(function(habit) {
+            var last7Days = [];
+            for (var i = 6; i >= 0; i--) {
+                var date = getMoroccoDate();
+                date.setDate(date.getDate() - i);
+                last7Days.push(date);
             }
+
+            var streak = calculateStreak(habit);
+            var bestStreak = calculateBestStreak(habit);
+            var totalDays = getTotalDays(habit);
+            var completedDays = getCompletedDays(habit);
+            var rate = Math.round((completedDays / totalDays) * 100);
+
+            var card = document.createElement('div');
+            card.className = 'habit-card';
+
+            var calendarHtml = last7Days.map(function(day) {
+                var dateStr = formatDate(day);
+                var isCompleted = habit.history[dateStr] === true;
+                var isToday = getTodayKey() === dateStr;
+                return '<div class="day-cell ' + (isCompleted ? 'completed' : '') + ' ' + (isToday ? 'today' : '') + '" onclick="toggleHabit(\'' + habit.id + '\',\'' + dateStr + '\')">'
+                    + '<div class="day-name">' + day.toLocaleDateString('ar-EG', { weekday: 'short' }) + '</div>'
+                    + '<div class="day-number">' + day.getDate() + '</div>'
+                    + '</div>';
+            }).join('');
+
+            card.innerHTML =
+                '<div class="habit-header">'
+                + '<div class="habit-info">'
+                + '<div class="habit-icon" style="background:' + habit.color + '"><i class="fas ' + habit.icon + '"></i></div>'
+                + '<div class="habit-title-section">'
+                + '<h3>' + escapeHtml(habit.name) + '</h3>'
+                + '<div class="habit-streak"><i class="fas fa-fire"></i> السلسلة الحالية: ' + streak + ' يوم | أفضل: ' + bestStreak + '</div>'
+                + '</div>'
+                + '</div>'
+                + '<div class="habit-actions">'
+                + '<button class="btn-icon" onclick="editHabit(\'' + habit.id + '\')"><i class="fas fa-edit"></i></button>'
+                + '<button class="btn-icon" onclick="confirmDelete(\'' + habit.id + '\')"><i class="fas fa-trash"></i></button>'
+                + '</div>'
+                + '</div>'
+                + '<div class="week-calendar">' + calendarHtml + '</div>'
+                + '<div class="habit-stats">'
+                + '<div class="habit-stat"><div class="habit-stat-value">' + rate + '%</div><div class="habit-stat-label">نسبة الإنجاز</div></div>'
+                + '<div class="habit-stat"><div class="habit-stat-value">' + completedDays + '</div><div class="habit-stat-label">يوم مكتمل</div></div>'
+                + '<div class="habit-stat"><div class="habit-stat-value">' + totalDays + '</div><div class="habit-stat-label">إجمالي الأيام</div></div>'
+                + '</div>';
+
+            grid.appendChild(card);
+        });
+
+        updateStats();
+        updateCharts();
+    }
+
+    // ============================
+    // تحديد / إلغاء تحديد عادة
+    // ✅ الإصلاح الرئيسي: حذف المفتاح عند الإلغاء بدل وضع false
+    //    هذا يمنع زيادة إجمالي الأيام
+    // ============================
+    function toggleHabit(habitId, date) {
+        var habit = habits.find(function(h) { return h.id === habitId; });
+        if (!habit) return;
+
+        var today = getTodayKey();
+        if (date > today) {
+            showToast('لا يمكنك تسجيل عادات لأيام مستقبلية', 'error');
+            return;
         }
-        
-        function addHabit(data) {
-            habits.push({ id: generateId(), name: data.name, color: data.color, icon: data.icon, history: {} });
-            saveHabits();
-            renderHabits();
-            showToast('تم إضافة العادة بنجاح', 'success');
+
+        var wasCompleted = habit.history[date] === true;
+
+        if (wasCompleted) {
+            // ✅ حذف المفتاح تماماً بدل وضع false → لا يزيد إجمالي الأيام
+            delete habit.history[date];
+        } else {
+            habit.history[date] = true;
         }
-        
-        function updateHabit(id, data) {
-            const index = habits.findIndex(h=>h.id===id);
-            if(index!==-1) {
-                habits[index] = { ...habits[index], name: data.name, color: data.color, icon: data.icon };
-                saveHabits();
-                renderHabits();
-                showToast('تم تحديث العادة', 'success');
-            }
-        }
-        
-        function deleteHabit(id) {
-            habits = habits.filter(h=>h.id!==id);
-            saveHabits();
-            renderHabits();
-            showToast('تم حذف العادة', 'success');
-        }
-        
-        function saveHabits() { localStorage.setItem('habitsTracker', JSON.stringify(habits)); }
-        
-        function loadHabits() {
-            const saved = localStorage.getItem('habitsTracker');
-            if(saved) { habits = JSON.parse(saved); }
-            // نبدأ من الصفر - لا عادات افتراضية
-        }
-        
-        function openAddModal() { document.getElementById('habitId').value=''; document.getElementById('habitName').value=''; document.getElementById('modalTitle').textContent='إضافة عادة جديدة'; selectColor('#6366f1'); selectIcon('fa-book'); document.getElementById('habitModal').classList.add('active'); }
-        function editHabit(id) { const h = habits.find(h=>h.id===id); if(h) { document.getElementById('habitId').value=h.id; document.getElementById('habitName').value=h.name; selectColor(h.color); selectIcon(h.icon); document.getElementById('modalTitle').textContent='تعديل العادة'; document.getElementById('habitModal').classList.add('active'); } }
-        function confirmDelete(id) { habitToDelete=id; document.getElementById('deleteModal').classList.add('active'); }
-        function closeAllModals() { document.getElementById('habitModal').classList.remove('active'); document.getElementById('deleteModal').classList.remove('active'); habitToDelete=null; }
-        
-        function selectColor(color) { document.getElementById('selectedColor').value=color; document.querySelectorAll('.color-option').forEach(btn=>btn.classList.toggle('active', btn.dataset.color===color)); }
-        function selectIcon(icon) { document.getElementById('selectedIcon').value=icon; document.querySelectorAll('.icon-option').forEach(btn=>btn.classList.toggle('active', btn.dataset.icon===icon)); }
-        
-        function setupEvents() {
-            document.getElementById('btnAddHabit').addEventListener('click', openAddModal);
-            document.getElementById('btnCloseModal').addEventListener('click', closeAllModals);
-            document.getElementById('btnCloseDelete').addEventListener('click', closeAllModals);
-            document.getElementById('btnCancel').addEventListener('click', closeAllModals);
-            document.getElementById('btnCancelDelete').addEventListener('click', closeAllModals);
-            
-            document.getElementById('habitForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const data = { name: document.getElementById('habitName').value.trim(), color: document.getElementById('selectedColor').value, icon: document.getElementById('selectedIcon').value };
-                if(document.getElementById('habitId').value) updateHabit(document.getElementById('habitId').value, data);
-                else addHabit(data);
-                closeAllModals();
-            });
-            
-            document.getElementById('btnConfirmDelete').addEventListener('click', () => { if(habitToDelete) deleteHabit(habitToDelete); closeAllModals(); });
-            document.querySelectorAll('.color-option').forEach(btn=>btn.addEventListener('click',()=>selectColor(btn.dataset.color)));
-            document.querySelectorAll('.icon-option').forEach(btn=>btn.addEventListener('click',()=>selectIcon(btn.dataset.icon)));
-            window.addEventListener('click', (e) => { if(e.target.classList.contains('modal')) closeAllModals(); });
-        }
-        
-        // بدء التشغيل
-        loadHabits();
+
+        saveHabits();
         renderHabits();
-        setupEvents();
-        checkDailyReset();
-        
-        // التحقق من منتصف الليل كل دقيقة
-        setInterval(() => {
-            checkDailyReset();
-        }, 60000);
-        
-        window.toggleHabit = toggleHabit;
-        window.editHabit = editHabit;
-        window.confirmDelete = confirmDelete;
-    </script>
+
+        // مكافأة سلسلة 7 أيام
+        if (!wasCompleted) {
+            var newStreak = calculateStreak(habit);
+            if (newStreak > 0 && newStreak % 7 === 0) {
+                showToast('🎉 رائع! حافظت على عادة "' + habit.name + '" لمدة ' + newStreak + ' أيام متتالية!', 'success');
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            }
+        }
+    }
+
+    // ============================
+    // إضافة / تعديل / حذف عادة
+    // ✅ createdAt مضاف عند إنشاء العادة لحساب إجمالي الأيام الصحيح
+    // ============================
+    function addHabit(data) {
+        habits.push({
+            id: generateId(),
+            name: data.name,
+            color: data.color,
+            icon: data.icon,
+            history: {},
+            createdAt: getTodayKey()   // ✅ تاريخ الإنشاء
+        });
+        saveHabits();
+        renderHabits();
+        showToast('تم إضافة العادة بنجاح', 'success');
+    }
+
+    function updateHabit(id, data) {
+        var index = habits.findIndex(function(h) { return h.id === id; });
+        if (index !== -1) {
+            habits[index].name = data.name;
+            habits[index].color = data.color;
+            habits[index].icon = data.icon;
+            saveHabits();
+            renderHabits();
+            showToast('تم تحديث العادة', 'success');
+        }
+    }
+
+    function deleteHabit(id) {
+        habits = habits.filter(function(h) { return h.id !== id; });
+        saveHabits();
+        renderHabits();
+        showToast('تم حذف العادة', 'success');
+    }
+
+    function saveHabits() {
+        localStorage.setItem('habitsTracker', JSON.stringify(habits));
+    }
+
+    function loadHabits() {
+        var saved = localStorage.getItem('habitsTracker');
+        if (saved) {
+            try {
+                habits = JSON.parse(saved);
+                // تنظيف: نحذف أي قيم false من history للعادات القديمة
+                habits.forEach(function(habit) {
+                    Object.keys(habit.history).forEach(function(key) {
+                        if (habit.history[key] !== true) {
+                            delete habit.history[key];
+                        }
+                    });
+                    // إضافة createdAt للعادات القديمة إن لم يكن موجوداً
+                    if (!habit.createdAt) {
+                        var keys = Object.keys(habit.history);
+                        if (keys.length > 0) {
+                            keys.sort();
+                            habit.createdAt = keys[0];
+                        } else {
+                            habit.createdAt = getTodayKey();
+                        }
+                    }
+                });
+                saveHabits(); // نحفظ بعد التنظيف
+            } catch(e) {
+                habits = [];
+            }
+        }
+    }
+
+    // ============================
+    // الـ Modals
+    // ============================
+    function openAddModal() {
+        document.getElementById('habitId').value = '';
+        document.getElementById('habitName').value = '';
+        document.getElementById('modalTitle').textContent = 'إضافة عادة جديدة';
+        selectColor('#6366f1');
+        selectIcon('fa-book');
+        document.getElementById('habitModal').classList.add('active');
+    }
+
+    function editHabit(id) {
+        var h = habits.find(function(h) { return h.id === id; });
+        if (h) {
+            document.getElementById('habitId').value = h.id;
+            document.getElementById('habitName').value = h.name;
+            selectColor(h.color);
+            selectIcon(h.icon);
+            document.getElementById('modalTitle').textContent = 'تعديل العادة';
+            document.getElementById('habitModal').classList.add('active');
+        }
+    }
+
+    function confirmDelete(id) {
+        habitToDelete = id;
+        document.getElementById('deleteModal').classList.add('active');
+    }
+
+    function closeAllModals() {
+        document.getElementById('habitModal').classList.remove('active');
+        document.getElementById('deleteModal').classList.remove('active');
+        habitToDelete = null;
+    }
+
+    function selectColor(color) {
+        document.getElementById('selectedColor').value = color;
+        document.querySelectorAll('.color-option').forEach(function(btn) {
+            btn.classList.toggle('active', btn.dataset.color === color);
+        });
+    }
+
+    function selectIcon(icon) {
+        document.getElementById('selectedIcon').value = icon;
+        document.querySelectorAll('.icon-option').forEach(function(btn) {
+            btn.classList.toggle('active', btn.dataset.icon === icon);
+        });
+    }
+
+    // ============================
+    // الأحداث
+    // ============================
+    function setupEvents() {
+        document.getElementById('btnAddHabit').addEventListener('click', openAddModal);
+        document.getElementById('btnCloseModal').addEventListener('click', closeAllModals);
+        document.getElementById('btnCloseDelete').addEventListener('click', closeAllModals);
+        document.getElementById('btnCancel').addEventListener('click', closeAllModals);
+        document.getElementById('btnCancelDelete').addEventListener('click', closeAllModals);
+
+        document.getElementById('habitForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var data = {
+                name: document.getElementById('habitName').value.trim(),
+                color: document.getElementById('selectedColor').value,
+                icon: document.getElementById('selectedIcon').value
+            };
+            var existingId = document.getElementById('habitId').value;
+            if (existingId) updateHabit(existingId, data);
+            else addHabit(data);
+            closeAllModals();
+        });
+
+        document.getElementById('btnConfirmDelete').addEventListener('click', function() {
+            if (habitToDelete) deleteHabit(habitToDelete);
+            closeAllModals();
+        });
+
+        document.querySelectorAll('.color-option').forEach(function(btn) {
+            btn.addEventListener('click', function() { selectColor(btn.dataset.color); });
+        });
+
+        document.querySelectorAll('.icon-option').forEach(function(btn) {
+            btn.addEventListener('click', function() { selectIcon(btn.dataset.icon); });
+        });
+
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) closeAllModals();
+        });
+    }
+
+    // ============================
+    // بدء التشغيل
+    // ============================
+    loadHabits();
+    renderHabits();
+    setupEvents();
+    checkDailyReset();
+
+    // فحص منتصف الليل كل دقيقة
+    setInterval(function() { checkDailyReset(); }, 60000);
+
+    // تعريض الدوال المستخدمة في onclick الـ HTML الداخلي
+    window.toggleHabit = toggleHabit;
+    window.editHabit = editHabit;
+    window.confirmDelete = confirmDelete;
+</script>
+```
+
 </body>
 </html>
