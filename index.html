@@ -2,193 +2,503 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Habit Master Ultra</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="تطبيق متقدم لتتبع العادات اليومية">
+    <title>✅ تتبع العادات اليومية</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
     <style>
-        :root {
-            --bg: #000000;
-            --card: #1c1c1e;
-            --accent: #0a84ff;
-            --success: #32d74b;
-            --danger: #ff453a;
-            --gold: #ffd60a;
-            --glass: rgba(255, 255, 255, 0.08);
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background: var(--bg);
-            color: white;
-            margin: 0;
-            padding: env(safe-area-inset-top) 20px 20px 20px;
-            display: flex;
-            justify-content: center;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .app-container { width: 100%; max-width: 450px; padding-top: 20px; }
-
-        /* الهوية البصرية والمستوى */
-        .profile-section { text-align: center; margin-bottom: 30px; }
-        .level-badge {
-            width: 80px; height: 80px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), #5856d6);
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 10px; font-size: 28px; font-weight: 900;
-            box-shadow: 0 0 25px rgba(10, 132, 255, 0.5);
-            border: 3px solid rgba(255,255,255,0.2);
-        }
-
-        /* الكروت الزجاجية (iOS Style) */
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 24px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 15px;
-        }
-
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .stat-item { text-align: center; }
-        .stat-value { font-size: 24px; font-weight: 800; color: var(--gold); display: block; }
-        .stat-label { font-size: 11px; color: #8e8e93; font-weight: 600; text-transform: uppercase; }
-
-        /* الزر الرئيسي العملاق */
-        .main-action { margin: 30px 0; }
-        .btn-core {
-            background: var(--accent);
-            color: white; border: none; width: 100%;
-            padding: 24px; border-radius: 22px;
-            font-size: 20px; font-weight: 800;
-            box-shadow: 0 15px 35px rgba(10, 132, 255, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-core:active { transform: scale(0.94); opacity: 0.9; }
-        .btn-core.done { background: var(--success); box-shadow: 0 10px 25px rgba(50, 215, 75, 0.3); }
-
-        /* الإنجازات Achievements */
-        .achievement-list { display: flex; gap: 12px; overflow-x: auto; padding: 10px 5px; scrollbar-width: none; }
-        .achievement-list::-webkit-scrollbar { display: none; }
-        .badge {
-            min-width: 65px; height: 65px; background: #2c2c2e;
-            border-radius: 18px; display: flex; align-items: center; justify-content: center;
-            font-size: 26px; opacity: 0.2; transition: 0.5s; grayscale: 100%;
-        }
-        .badge.active { opacity: 1; grayscale: 0; background: var(--glass); border: 1px solid var(--gold); transform: scale(1.05); }
-
-        /* شريط الصحة */
-        .health-container { margin-top: 10px; }
-        .health-bar { background: #333; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 5px; }
-        .health-fill { background: var(--danger); width: 100%; height: 100%; transition: 1s ease; }
-
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
-        .sync-status { font-size: 10px; color: #32d74b; margin-top: 15px; animation: pulse 2s infinite; }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Tajawal',sans-serif;background:#0f0f1a;color:#fff;padding:1rem}
+        .container{max-width:1200px;margin:0 auto}
+        .header{text-align:center;margin-bottom:2rem}
+        .logo{display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:0.5rem}
+        .logo i{font-size:2.5rem;color:#6366f1}
+        .logo h1{font-size:1.8rem;background:linear-gradient(135deg,#fff,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .subtitle{color:rgba(255,255,255,0.7);margin-bottom:1.5rem}
+        
+        /* Stats Cards */
+        .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+        .stat-card{background:rgba(255,255,255,0.05);border-radius:16px;padding:1rem;text-align:center}
+        .stat-card i{font-size:1.5rem;margin-bottom:0.5rem;color:#6366f1}
+        .stat-value{font-size:1.5rem;font-weight:bold;display:block}
+        .stat-label{font-size:0.7rem;color:rgba(255,255,255,0.6)}
+        .stat-trend{font-size:0.7rem;margin-top:0.25rem}
+        .trend-up{color:#22c55e}.trend-down{color:#f43f5e}
+        
+        /* Charts */
+        .charts-section{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+        .chart-card{background:rgba(255,255,255,0.05);border-radius:20px;padding:1.5rem}
+        .chart-card h3{font-size:1rem;margin-bottom:1rem;color:rgba(255,255,255,0.8);display:flex;align-items:center;gap:0.5rem}
+        .chart-card canvas{max-height:200px;width:100%}
+        
+        /* Prediction Card */
+        .prediction-card{background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(139,92,246,0.1));border-radius:20px;padding:1rem;margin-bottom:2rem;text-align:center;border:1px solid rgba(99,102,241,0.3)}
+        .prediction-card i{font-size:1.2rem;color:#6366f1}
+        .prediction-text{font-size:0.9rem;color:rgba(255,255,255,0.8)}
+        
+        .btn-add-habit{width:100%;padding:1rem;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;border-radius:50px;color:#fff;font-size:1.1rem;font-weight:bold;margin-bottom:2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem}
+        
+        .habits-grid{display:grid;grid-template-columns:1fr;gap:1.5rem}
+        .habit-card{background:rgba(255,255,255,0.05);border-radius:20px;padding:1.5rem}
+        .habit-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+        .habit-info{display:flex;align-items:center;gap:0.75rem}
+        .habit-icon{width:50px;height:50px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+        .habit-title-section h3{font-size:1.1rem}
+        .habit-streak{font-size:0.7rem;color:#fbbf24;display:flex;align-items:center;gap:0.25rem}
+        .habit-actions{display:flex;gap:0.5rem}
+        .btn-icon{background:rgba(255,255,255,0.1);border:none;border-radius:8px;width:35px;height:35px;color:#fff;cursor:pointer}
+        
+        /* Week Calendar */
+        .week-calendar{display:flex;gap:0.5rem;margin-bottom:1rem;overflow-x:auto}
+        .day-cell{flex:1;text-align:center;padding:0.5rem;background:rgba(0,0,0,0.3);border-radius:12px;cursor:pointer;transition:all 0.2s}
+        .day-cell.completed{background:linear-gradient(135deg,#22c55e,#4ade80)}
+        .day-cell.today{border:2px solid #6366f1}
+        .day-name{font-size:0.7rem;color:rgba(255,255,255,0.6)}
+        .day-number{font-size:1rem;font-weight:bold}
+        
+        .habit-stats{display:flex;gap:1rem;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.1)}
+        .habit-stat{flex:1;text-align:center}
+        .habit-stat-value{font-size:1rem;font-weight:bold}
+        .habit-stat-label{font-size:0.6rem;color:rgba(255,255,255,0.5)}
+        
+        .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;visibility:hidden;transition:all 0.3s}
+        .modal.active{opacity:1;visibility:visible}
+        .modal-content{background:#1a1a2e;border-radius:20px;width:90%;max-width:500px;padding:1.5rem;max-height:80vh;overflow-y:auto}
+        .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+        .btn-close{background:rgba(255,255,255,0.1);border:none;border-radius:8px;width:35px;height:35px;color:#fff;cursor:pointer}
+        .form-group{margin-bottom:1rem}
+        .form-group label{display:block;margin-bottom:0.5rem;color:rgba(255,255,255,0.7)}
+        .form-group input{width:100%;padding:0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-size:16px}
+        .color-picker{display:flex;flex-wrap:wrap;gap:0.5rem}
+        .color-option{width:40px;height:40px;border-radius:50%;border:2px solid transparent;cursor:pointer}
+        .color-option.active{border-color:#fff}
+        .icon-picker{display:grid;grid-template-columns:repeat(6,1fr);gap:0.5rem}
+        .icon-option{background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:0.5rem;cursor:pointer;text-align:center}
+        .icon-option.active{background:#6366f1}
+        .form-actions{display:flex;gap:1rem;margin-top:1.5rem}
+        .btn-primary{flex:1;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;border-radius:10px;padding:0.8rem;color:#fff;cursor:pointer}
+        .btn-secondary{flex:1;background:rgba(255,255,255,0.1);border:none;border-radius:10px;padding:0.8rem;color:#fff;cursor:pointer}
+        .empty-state{text-align:center;padding:3rem;display:none}
+        .empty-state.active{display:block}
+        .toast-container{position:fixed;top:1rem;left:1rem;z-index:2000}
+        .toast{background:#1a1a2e;border-radius:10px;padding:0.8rem 1.2rem;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem}
+        .toast.success{border-right:3px solid #22c55e}
+        
+        @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr)}.charts-section{grid-template-columns:1fr}.week-calendar{gap:0.3rem}.day-cell{padding:0.3rem}}
+        
+        body{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+        input,textarea{-webkit-user-select:text !important;user-select:text !important;font-size:16px !important}
     </style>
 </head>
 <body>
-
-<div class="app-container">
-    <div class="profile-section">
-        <div class="level-badge" id="lvl">1</div>
-        <h2 id="rank" style="margin: 5px 0; font-size: 18px;">المبتدئ الواعد</h2>
-        <div class="health-container" style="width: 150px; margin: 0 auto;">
-            <div class="health-bar"><div id="hp" class="health-fill"></div></div>
-        </div>
-    </div>
-
-    <div class="stats-grid">
-        <div class="glass-card stat-item">
-            <span class="stat-value" id="streak">0</span>
-            <span class="stat-label">أيام متتالية 🔥</span>
-        </div>
-        <div class="glass-card stat-item">
-            <span class="stat-value" id="coins">0</span>
-            <span class="stat-label">رصيد الذهب 💰</span>
-        </div>
-    </div>
-
-    <div class="main-action">
-        <button id="btn" class="btn-core" onclick="complete()">تسجيل إنجاز اليوم</button>
-    </div>
-
-    <h3 style="font-size: 14px; margin-left: 5px; color: #8e8e93;">الأوسمة المكتسبة 🏅</h3>
-    <div class="achievement-list">
-        <div id="m1" class="badge">🌱</div>
-        <div id="m2" class="badge">🔥</div>
-        <div id="m3" class="badge">🛡️</div>
-        <div id="m4" class="badge">💎</div>
-        <div id="m5" class="badge">👑</div>
-    </div>
-
-    <div class="glass-card" style="margin-top: 20px;">
-        <h4 style="margin: 0 0 10px 0; color: var(--gold);">🛒 متجر التطوير</h4>
-        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px;">
-            <span>شراء "تأمين السلسلة"</span>
-            <button onclick="buy(100)" style="background: white; border:none; padding: 5px 12px; border-radius: 8px; font-weight: bold;">100 💰</button>
-        </div>
-    </div>
-
-    <center><div class="sync-status">● متصل ومؤمن سحابياً عبر GitHub</div></center>
-</div>
-
-<script>
-    let state = JSON.parse(localStorage.getItem('UltraHabit')) || {
-        s: 0, c: 0, h: 100, last: null, items: 0
-    };
-
-    const ranks = ["المبتدئ الواعد", "المكافح المستمر", "صاحب الإرادة", "محارب العادات", "سيد الانضباط", "الأسطورة"];
-
-    function update() {
-        document.getElementById('streak').innerText = state.s;
-        document.getElementById('coins').innerText = state.c;
-        document.getElementById('hp').style.width = state.h + "%";
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-check-circle"></i>
+                <h1>تتبع العادات اليومية</h1>
+            </div>
+            <p class="subtitle">ابنِ عاداتك الإيجابية خطوة بخطوة</p>
+        </header>
         
-        let level = Math.floor(state.s / 7) + 1;
-        document.getElementById('lvl').innerText = level;
-        document.getElementById('rank').innerText = ranks[Math.min(level-1, 5)];
-
-        // الأوسمة
-        if(state.s >= 1) document.getElementById('m1').classList.add('active');
-        if(state.s >= 7) document.getElementById('m2').classList.add('active');
-        if(state.s >= 30) document.getElementById('m3').classList.add('active');
-        if(state.s >= 100) document.getElementById('m4').classList.add('active');
-        if(state.s >= 365) document.getElementById('m5').classList.add('active');
-
-        let today = new Date().toDateString();
-        if(state.last === today) {
-            let b = document.getElementById('btn');
-            b.innerText = "تم إنجاز يومك! ✅";
-            b.classList.add('done');
-            b.disabled = true;
+        <!-- إحصائيات ذكية -->
+        <div class="stats-grid">
+            <div class="stat-card"><i class="fas fa-fire"></i><span class="stat-value" id="totalStreak">0</span><span class="stat-label">أقوى سلسلة</span><div class="stat-trend" id="streakTrend"></div></div>
+            <div class="stat-card"><i class="fas fa-chart-line"></i><span class="stat-value" id="totalCompletion">0%</span><span class="stat-label">نسبة الإنجاز</span><div class="stat-trend" id="completionTrend"></div></div>
+            <div class="stat-card"><i class="fas fa-calendar-check"></i><span class="stat-value" id="totalHabits">0</span><span class="stat-label">العادات</span></div>
+            <div class="stat-card"><i class="fas fa-trophy"></i><span class="stat-value" id="bestHabit">-</span><span class="stat-label">أفضل عادة</span></div>
+        </div>
+        
+        <!-- الرسوم البيانية -->
+        <div class="charts-section">
+            <div class="chart-card"><h3><i class="fas fa-chart-line"></i> أداء العادات (آخر 7 أيام)</h3><canvas id="weeklyChart"></canvas></div>
+            <div class="chart-card"><h3><i class="fas fa-chart-bar"></i> مقارنة العادات</h3><canvas id="comparisonChart"></canvas></div>
+        </div>
+        
+        <!-- توقعات ذكية -->
+        <div class="prediction-card" id="predictionCard">
+            <i class="fas fa-brain"></i> <span class="prediction-text" id="predictionText">تحليل ذكي...</span>
+        </div>
+        
+        <button class="btn-add-habit" id="btnAddHabit"><i class="fas fa-plus"></i> إضافة عادة جديدة</button>
+        
+        <div class="habits-grid" id="habitsGrid"></div>
+        <div class="empty-state" id="emptyState"><i class="fas fa-smile" style="font-size:3rem;margin-bottom:1rem"></i><h2>ابدأ رحلتك</h2><p>أضف أول عادة لك وابدأ في بناء مستقبل أفضل</p></div>
+    </div>
+    
+    <!-- Modals -->
+    <div class="modal" id="habitModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2 id="modalTitle">إضافة عادة جديدة</h2><button class="btn-close" id="btnCloseModal"><i class="fas fa-times"></i></button></div>
+            <form id="habitForm">
+                <input type="hidden" id="habitId">
+                <div class="form-group"><label>اسم العادة</label><input type="text" id="habitName" placeholder="مثال: قراءة 30 دقيقة" required></div>
+                <div class="form-group"><label>اختر لون العادة</label><div class="color-picker" id="colorPicker">
+                    <button type="button" class="color-option" data-color="#6366f1" style="background:#6366f1"></button>
+                    <button type="button" class="color-option" data-color="#8b5cf6" style="background:#8b5cf6"></button>
+                    <button type="button" class="color-option" data-color="#ec4899" style="background:#ec4899"></button>
+                    <button type="button" class="color-option" data-color="#22c55e" style="background:#22c55e"></button>
+                    <button type="button" class="color-option" data-color="#f97316" style="background:#f97316"></button>
+                    <button type="button" class="color-option" data-color="#06b6d4" style="background:#06b6d4"></button>
+                </div><input type="hidden" id="selectedColor" value="#6366f1"></div>
+                <div class="form-group"><label>اختر أيقونة</label><div class="icon-picker" id="iconPicker">
+                    <button type="button" class="icon-option" data-icon="fa-book"><i class="fas fa-book"></i></button>
+                    <button type="button" class="icon-option" data-icon="fa-dumbbell"><i class="fas fa-dumbbell"></i></button>
+                    <button type="button" class="icon-option" data-icon="fa-apple-alt"><i class="fas fa-apple-alt"></i></button>
+                    <button type="button" class="icon-option" data-icon="fa-walking"><i class="fas fa-walking"></i></button>
+                    <button type="button" class="icon-option" data-icon="fa-bed"><i class="fas fa-bed"></i></button>
+                    <button type="button" class="icon-option" data-icon="fa-laptop-code"><i class="fas fa-laptop-code"></i></button>
+                    <button type="button" class="icon-option" data-icon="fa-pray"><i class="fas fa-pray"></i></button>
+                    <button type="button" class="icon-option" data-icon="fa-heartbeat"><i class="fas fa-heartbeat"></i></button>
+                    <button type="button" class="icon-option" data-icon="fa-water"><i class="fas fa-water"></i></button>
+                    <button type="button" class="icon-option" data-icon="fa-meditate"><i class="fas fa-meditate"></i></button>
+                    <button type="button" class="icon-option" data-icon="fa-bicycle"><i class="fas fa-bicycle"></i></button>
+                    <button type="button" class="icon-option" data-icon="fa-music"><i class="fas fa-music"></i></button>
+                </div><input type="hidden" id="selectedIcon" value="fa-book"></div>
+                <div class="form-actions"><button type="button" class="btn-secondary" id="btnCancel">إلغاء</button><button type="submit" class="btn-primary">حفظ العادة</button></div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="modal" id="deleteModal">
+        <div class="modal-content"><div class="modal-header"><h2>تأكيد الحذف</h2><button class="btn-close" id="btnCloseDelete"><i class="fas fa-times"></i></button></div>
+        <div style="text-align:center;padding:1rem"><i class="fas fa-exclamation-triangle" style="font-size:3rem;color:#f43f5e"></i><p>هل أنت متأكد من حذف هذه العادة؟</p><p style="font-size:0.8rem;color:rgba(255,255,255,0.5)">سيتم فقدان جميع بيانات التقدم</p>
+        <div class="form-actions"><button class="btn-secondary" id="btnCancelDelete">إلغاء</button><button class="btn-primary" id="btnConfirmDelete" style="background:#f43f5e">حذف</button></div></div></div>
+    </div>
+    
+    <div class="toast-container" id="toastContainer"></div>
+    
+    <script>
+        let habits = [];
+        let habitToDelete = null;
+        let weeklyChart = null;
+        let comparisonChart = null;
+        
+        const elements = {
+            habitsGrid: document.getElementById('habitsGrid'),
+            emptyState: document.getElementById('emptyState'),
+            toastContainer: document.getElementById('toastContainer'),
+            totalStreak: document.getElementById('totalStreak'),
+            totalCompletion: document.getElementById('totalCompletion'),
+            totalHabits: document.getElementById('totalHabits'),
+            bestHabit: document.getElementById('bestHabit'),
+            streakTrend: document.getElementById('streakTrend'),
+            completionTrend: document.getElementById('completionTrend'),
+            predictionText: document.getElementById('predictionText'),
+            btnAddHabit: document.getElementById('btnAddHabit'),
+            habitModal: document.getElementById('habitModal'),
+            deleteModal: document.getElementById('deleteModal'),
+            btnCloseModal: document.getElementById('btnCloseModal'),
+            btnCloseDelete: document.getElementById('btnCloseDelete'),
+            habitForm: document.getElementById('habitForm'),
+            habitId: document.getElementById('habitId'),
+            habitName: document.getElementById('habitName'),
+            selectedColor: document.getElementById('selectedColor'),
+            selectedIcon: document.getElementById('selectedIcon'),
+            modalTitle: document.getElementById('modalTitle'),
+            colorPicker: document.getElementById('colorPicker'),
+            iconPicker: document.getElementById('iconPicker'),
+            btnCancel: document.getElementById('btnCancel'),
+            btnCancelDelete: document.getElementById('btnCancelDelete'),
+            btnConfirmDelete: document.getElementById('btnConfirmDelete'),
+        };
+        
+        function saveHabits() { localStorage.setItem('habitsTracker', JSON.stringify(habits)); }
+        
+        function loadHabits() {
+            const saved = localStorage.getItem('habitsTracker');
+            if(saved) { habits = JSON.parse(saved); }
+            if(habits.length === 0) {
+                addSampleHabits();
+            }
         }
-    }
-
-    function complete() {
-        state.s++;
-        state.c += 15;
-        state.h = Math.min(state.h + 10, 100);
-        state.last = new Date().toDateString();
-        save();
-        update();
-        if(navigator.vibrate) navigator.vibrate([60, 40, 60]);
-    }
-
-    function buy(cost) {
-        if(state.c >= cost) {
-            state.c -= cost;
-            alert("تم تفعيل حماية السلسلة! 🛡️");
-            save(); update();
-        } else {
-            alert("تحتاج لمزيد من الذهب!");
+        
+        function addSampleHabits() {
+            const today = new Date().toISOString().split('T')[0];
+            habits = [
+                { id: generateId(), name: 'قراءة كتاب', color: '#6366f1', icon: 'fa-book', history: {} },
+                { id: generateId(), name: 'ممارسة الرياضة', color: '#22c55e', icon: 'fa-dumbbell', history: {} },
+                { id: generateId(), name: 'شرب الماء', color: '#06b6d4', icon: 'fa-water', history: {} }
+            ];
+            habits.forEach(habit => {
+                for(let i = 6; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    const dateStr = date.toISOString().split('T')[0];
+                    habit.history[dateStr] = Math.random() > 0.3;
+                }
+            });
+            saveHabits();
         }
-    }
-
-    function save() { localStorage.setItem('UltraHabit', JSON.stringify(state)); }
-
-    update();
-</script>
+        
+        function formatDate(date) { return date.toISOString().split('T')[0]; }
+        function generateId() { return Date.now().toString(36) + Math.random().toString(36).substring(2); }
+        function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+        function showToast(msg, type) { const toast = document.createElement('div'); toast.className = `toast ${type}`; toast.innerHTML = `<i class="fas ${type==='success'?'fa-check-circle':'fa-info-circle'}"></i><span>${msg}</span>`; document.getElementById('toastContainer').appendChild(toast); setTimeout(()=>toast.remove(),3000); }
+        
+        function calculateStreak(habit) {
+            let streak = 0;
+            let currentDate = new Date();
+            while(true) {
+                const dateStr = formatDate(currentDate);
+                if(habit.history[dateStr] === true) { streak++; currentDate.setDate(currentDate.getDate() - 1); }
+                else break;
+            }
+            return streak;
+        }
+        
+        function calculateBestStreak(habit) {
+            let maxStreak = 0, currentStreak = 0;
+            const dates = Object.keys(habit.history).sort();
+            for(let i = 0; i < dates.length; i++) {
+                if(habit.history[dates[i]]) { currentStreak++; maxStreak = Math.max(maxStreak, currentStreak); }
+                else currentStreak = 0;
+            }
+            return maxStreak;
+        }
+        
+        function updateStats() {
+            const totalHabits = habits.length;
+            let totalCompletions = 0, totalPossible = 0;
+            let bestHabitName = '-', bestHabitRate = 0;
+            
+            habits.forEach(habit => {
+                const days = Object.keys(habit.history).length;
+                const completed = Object.values(habit.history).filter(v=>v===true).length;
+                const rate = days > 0 ? (completed/days)*100 : 0;
+                totalCompletions += completed;
+                totalPossible += days;
+                if(rate > bestHabitRate) { bestHabitRate = rate; bestHabitName = habit.name; }
+            });
+            
+            const overallRate = totalPossible > 0 ? (totalCompletions/totalPossible)*100 : 0;
+            elements.totalHabits.textContent = totalHabits;
+            elements.totalCompletion.textContent = Math.round(overallRate) + '%';
+            elements.bestHabit.textContent = bestHabitName.length > 10 ? bestHabitName.slice(0,10)+'..' : bestHabitName;
+            
+            let totalStreak = 0;
+            habits.forEach(habit => { totalStreak += calculateStreak(habit); });
+            elements.totalStreak.textContent = totalStreak;
+            
+            const lastWeekCompletions = getLastWeekCompletions();
+            const prevWeekCompletions = getPreviousWeekCompletions();
+            const streakChange = lastWeekCompletions - prevWeekCompletions;
+            elements.streakTrend.innerHTML = streakChange >= 0 ? `<i class="fas fa-arrow-up trend-up"></i> +${streakChange}` : `<i class="fas fa-arrow-down trend-down"></i> ${streakChange}`;
+            elements.completionTrend.innerHTML = overallRate > 50 ? '<i class="fas fa-arrow-up trend-up"></i> جيد' : '<i class="fas fa-arrow-down trend-down"></i> يحتاج تحسين';
+            
+            updatePrediction(overallRate);
+        }
+        
+        function getLastWeekCompletions() {
+            let count = 0;
+            habits.forEach(habit => {
+                for(let i = 0; i < 7; i++) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    if(habit.history[formatDate(date)]) count++;
+                }
+            });
+            return count;
+        }
+        
+        function getPreviousWeekCompletions() {
+            let count = 0;
+            habits.forEach(habit => {
+                for(let i = 7; i < 14; i++) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    if(habit.history[formatDate(date)]) count++;
+                }
+            });
+            return count;
+        }
+        
+        function updatePrediction(rate) {
+            const predictions = [
+                { min: 80, text: '🔥 ممتاز! استمر على هذا المنوال، أنت في طريقك لتكوين عادات قوية جداً!' },
+                { min: 60, text: '📈 جيد جداً! مع القليل من الالتزام الإضافي، ستصل إلى نتائج رائعة' },
+                { min: 40, text: '🌱 بداية جيدة! حاول تخصيص وقت ثابت يومياً للعادات' },
+                { min: 20, text: '💪 لا تستسلم! حتى الخطوات الصغيرة تقود إلى تغييرات كبيرة' },
+                { min: 0, text: '🌟 ابدأ اليوم! أول خطوة هي الأهم في رحلة بناء العادات' }
+            ];
+            const prediction = predictions.find(p => rate >= p.min) || predictions[predictions.length-1];
+            elements.predictionText.textContent = prediction.text;
+        }
+        
+        function updateCharts() {
+            const last7Days = [];
+            for(let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                last7Days.push(formatDate(date));
+            }
+            
+            const dailyData = last7Days.map(day => {
+                let count = 0;
+                habits.forEach(habit => { if(habit.history[day]) count++; });
+                return count;
+            });
+            
+            if(weeklyChart) weeklyChart.destroy();
+            const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
+            weeklyChart = new Chart(weeklyCtx, {
+                type: 'line', data: { labels: last7Days.map(d=>d.slice(5)), datasets: [{ label: 'العادات المنجزة', data: dailyData, borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,0.1)', tension: 0.4, fill: true }] },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#fff' } } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' } }, x: { grid: { color: 'rgba(255,255,255,0.1)' } } } }
+            });
+            
+            const comparisonData = habits.map(h => {
+                const days = Object.keys(h.history).length;
+                const completed = Object.values(h.history).filter(v=>v===true).length;
+                return days > 0 ? (completed/days)*100 : 0;
+            });
+            
+            if(comparisonChart) comparisonChart.destroy();
+            const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
+            comparisonChart = new Chart(comparisonCtx, {
+                type: 'bar', data: { labels: habits.map(h=>h.name.length>10?h.name.slice(0,8)+'..':h.name), datasets: [{ label: 'نسبة الإنجاز %', data: comparisonData, backgroundColor: habits.map(h=>h.color), borderRadius: 8 }] },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#fff' } } }, scales: { y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.1)' } }, x: { grid: { color: 'rgba(255,255,255,0.1)' } } } }
+            });
+        }
+        
+        function renderHabits() {
+            const grid = elements.habitsGrid;
+            grid.innerHTML = '';
+            if(habits.length === 0) { elements.emptyState.classList.add('active'); return; }
+            elements.emptyState.classList.remove('active');
+            
+            habits.forEach(habit => {
+                const last7Days = [];
+                for(let i = 6; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    last7Days.push(date);
+                }
+                
+                const streak = calculateStreak(habit);
+                const bestStreak = calculateBestStreak(habit);
+                const totalDays = Object.keys(habit.history).length;
+                const completedDays = Object.values(habit.history).filter(v=>v===true).length;
+                const rate = totalDays > 0 ? Math.round((completedDays/totalDays)*100) : 0;
+                
+                const card = document.createElement('div');
+                card.className = 'habit-card';
+                card.innerHTML = `
+                    <div class="habit-header">
+                        <div class="habit-info">
+                            <div class="habit-icon" style="background:${habit.color}"><i class="fas ${habit.icon}"></i></div>
+                            <div class="habit-title-section">
+                                <h3>${escapeHtml(habit.name)}</h3>
+                                <div class="habit-streak"><i class="fas fa-fire"></i> السلسلة الحالية: ${streak} يوم | أفضل: ${bestStreak}</div>
+                            </div>
+                        </div>
+                        <div class="habit-actions">
+                            <button class="btn-icon" onclick="editHabit('${habit.id}')"><i class="fas fa-edit"></i></button>
+                            <button class="btn-icon" onclick="confirmDelete('${habit.id}')"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="week-calendar">
+                        ${last7Days.map(day => {
+                            const dateStr = formatDate(day);
+                            const isCompleted = habit.history[dateStr] === true;
+                            const isToday = formatDate(new Date()) === dateStr;
+                            return `<div class="day-cell ${isCompleted ? 'completed' : ''} ${isToday ? 'today' : ''}" onclick="toggleHabit('${habit.id}','${dateStr}')">
+                                <div class="day-name">${day.toLocaleDateString('ar-EG',{weekday:'short'})}</div>
+                                <div class="day-number">${day.getDate()}</div>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                    <div class="habit-stats">
+                        <div class="habit-stat"><div class="habit-stat-value">${rate}%</div><div class="habit-stat-label">نسبة الإنجاز</div></div>
+                        <div class="habit-stat"><div class="habit-stat-value">${completedDays}</div><div class="habit-stat-label">يوم مكتمل</div></div>
+                        <div class="habit-stat"><div class="habit-stat-value">${totalDays}</div><div class="habit-stat-label">إجمالي الأيام</div></div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            updateStats();
+            updateCharts();
+        }
+        
+        function toggleHabit(habitId, date) {
+            const habit = habits.find(h => h.id === habitId);
+            if(habit) {
+                const current = habit.history[date] || false;
+                habit.history[date] = !current;
+                saveHabits();
+                renderHabits();
+                
+                if(!current && calculateStreak(habit) >= 7) {
+                    showToast(`🎉 رائع! حافظت على عادة "${habit.name}" لمدة 7 أيام متتالية!`, 'success');
+                    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                }
+            }
+        }
+        
+        function addHabit(data) {
+            habits.push({ id: generateId(), name: data.name, color: data.color, icon: data.icon, history: {} });
+            saveHabits();
+            renderHabits();
+            showToast('تم إضافة العادة بنجاح', 'success');
+        }
+        
+        function updateHabit(id, data) {
+            const index = habits.findIndex(h=>h.id===id);
+            if(index!==-1) {
+                habits[index] = { ...habits[index], name: data.name, color: data.color, icon: data.icon };
+                saveHabits();
+                renderHabits();
+                showToast('تم تحديث العادة', 'success');
+            }
+        }
+        
+        function deleteHabit(id) {
+            habits = habits.filter(h=>h.id!==id);
+            saveHabits();
+            renderHabits();
+            showToast('تم حذف العادة', 'success');
+        }
+        
+        function openAddModal() { elements.habitId.value=''; elements.habitName.value=''; elements.modalTitle.textContent='إضافة عادة جديدة'; selectColor('#6366f1'); selectIcon('fa-book'); elements.habitModal.classList.add('active'); }
+        function editHabit(id) { const h = habits.find(h=>h.id===id); if(h) { elements.habitId.value=h.id; elements.habitName.value=h.name; selectColor(h.color); selectIcon(h.icon); elements.modalTitle.textContent='تعديل العادة'; elements.habitModal.classList.add('active'); } }
+        function confirmDelete(id) { habitToDelete=id; elements.deleteModal.classList.add('active'); }
+        function closeAllModals() { elements.habitModal.classList.remove('active'); elements.deleteModal.classList.remove('active'); habitToDelete=null; }
+        
+        function selectColor(color) { elements.selectedColor.value=color; document.querySelectorAll('.color-option').forEach(btn=>btn.classList.toggle('active', btn.dataset.color===color)); }
+        function selectIcon(icon) { elements.selectedIcon.value=icon; document.querySelectorAll('.icon-option').forEach(btn=>btn.classList.toggle('active', btn.dataset.icon===icon)); }
+        
+        function setupEvents() {
+            elements.btnAddHabit.addEventListener('click', openAddModal);
+            elements.btnCloseModal.addEventListener('click', closeAllModals);
+            elements.btnCloseDelete.addEventListener('click', closeAllModals);
+            elements.btnCancel.addEventListener('click', closeAllModals);
+            elements.btnCancelDelete.addEventListener('click', closeAllModals);
+            
+            elements.habitForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const data = { name: elements.habitName.value.trim(), color: elements.selectedColor.value, icon: elements.selectedIcon.value };
+                if(elements.habitId.value) updateHabit(elements.habitId.value, data);
+                else addHabit(data);
+                closeAllModals();
+            });
+            
+            elements.btnConfirmDelete.addEventListener('click', () => { if(habitToDelete) deleteHabit(habitToDelete); closeAllModals(); });
+            document.querySelectorAll('.color-option').forEach(btn=>btn.addEventListener('click',()=>selectColor(btn.dataset.color)));
+            document.querySelectorAll('.icon-option').forEach(btn=>btn.addEventListener('click',()=>selectIcon(btn.dataset.icon)));
+            window.addEventListener('click', (e) => { if(e.target.classList.contains('modal')) closeAllModals(); });
+        }
+        
+        loadHabits();
+        renderHabits();
+        setupEvents();
+        
+        window.toggleHabit = toggleHabit;
+        window.editHabit = editHabit;
+        window.confirmDelete = confirmDelete;
+    </script>
 </body>
 </html>
